@@ -12,6 +12,16 @@ const getAllProducts = async(req, res) => {
     }
 }
 
+//get all products in the cart
+const getAllCartProducts = async(req, res) => {
+    try {
+        const listOfCartProducts = await CartSchema.find({})
+        res.status(200).send(listOfCartProducts)
+    } catch (error) {
+        res.status(500).json({ 'msg' : error.message})
+    }
+}
+
 
 //get specified product by it's id
 const getProductById = async(req, res) => {
@@ -49,9 +59,8 @@ const addToCart = async(req, res) => {
 const removeCartProduct = async(req, res) => {
     try {
         const { id } = req.params
-        console.log(id);
         const productToBeRemoved = await  CartSchema.findOneAndDelete({_id : id})
-        res.status(200).json({ 'msg' : `${productToBeRemoved.name} has been removed!`})
+        res.status(200).json({ 'msg' : `${productToBeRemoved._id} has been removed!`})
     } 
     catch (error) {
         res.status(500).json({ 'msg' : error.message})
@@ -61,6 +70,7 @@ const removeCartProduct = async(req, res) => {
 
 module.exports = {
     getAllProducts,
+    getAllCartProducts,
     getProductById,
     addToCart,
     removeCartProduct
