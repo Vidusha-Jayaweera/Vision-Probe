@@ -10,6 +10,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+//importing the products route
+const ProductRoute = require('./routes/Products')
+app.use('/marketplace', ProductRoute)
+
 app.listen(PORT, () => {
 
   // Start the server
