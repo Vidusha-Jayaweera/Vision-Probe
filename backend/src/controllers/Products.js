@@ -1,6 +1,26 @@
 const ProductSchema = require('../models/Product')
 const CartSchema = require('../models/Cart')
 
+//insert new product
+const addProduct = async(req, res) => {
+    try {
+      const {name, category , price, description, availableStock, recommendation, reviews, base64Img} = req.body
+      const newProduct = await ProductSchema.create({
+        name : name, 
+        category : category,
+        price : price,
+        description : description,
+        availableStock : availableStock,
+        recommendation : recommendation,
+        reviews : reviews,
+        imgurl : base64Img
+      })
+      res.status(200).json(newProduct)
+    } catch (error) {
+      res.status(500).send({ "msg" : error.message})
+    }
+}
+
 //get all products
 const getAllProducts = async(req, res) => {
     try {
@@ -47,7 +67,8 @@ const addToCart = async(req, res) => {
             description : product.description,
             availableStock : product.availableStock,
             recommendation : product.recommendation,
-            reviews : product.reviews
+            reviews : product.reviews,
+            imgurl : product.imgurl
         })
         res.status(200).json(newCartProduct)
     } catch (error) {
@@ -69,6 +90,7 @@ const removeCartProduct = async(req, res) => {
 
 
 module.exports = {
+    addProduct,
     getAllProducts,
     getAllCartProducts,
     getProductById,

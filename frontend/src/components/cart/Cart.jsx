@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './index.css'
-import Glass1 from '../../images/glass1.jpg'
 
 function Cart() {
 
@@ -30,6 +29,9 @@ function Cart() {
   }, [removedMsg])
     
   totalPrice.current = 0
+  if(listOfCartProducts.length == 0){
+    deliveryCost.current = 0
+  }
 
   return (
     <>
@@ -48,7 +50,7 @@ function Cart() {
                             return(
                                 <div class="row border-top border-bottom" key={index}>
                                     <div class="row main align-items-center">
-                                        <div class="col-2"><img class="img-fluid" src='https://www.warbyparker.com/learn/wp-content/uploads/2022/12/how-long-goes-it-take-to-adjust-to-new-glasses.jpg'/></div>
+                                        <div class="col-2"><img class="img-fluid cart-product-image" src={obj.imgurl}/></div>
                                         <div class="col">
                                             <div class="row text-muted">{obj.category}</div>
                                             <div class="row">{obj.name}</div>

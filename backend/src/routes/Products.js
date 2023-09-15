@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { getAllProducts, getProductById, addToCart, getAllCartProducts, removeCartProduct } = require('../controllers/Products')
+const { addProduct, getAllProducts, getProductById, addToCart, getAllCartProducts, removeCartProduct } = require('../controllers/Products')
+
+//insert a new product
+router.post('/addProducts', addProduct)
 
 //get all products
 router.get('/products', getAllProducts)

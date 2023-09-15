@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import './index.css'
-import Glass1 from '../../images/glass1.jpg'
 
 function Marketplace() {
 
   const navigate = useNavigate()
   const [productList, setProductList] = useState([])
+  const [highestReviewsState, setHighestReviewsState] = useState(0)
 
   const getAllProducts = async() => {
     const requestProducts = await fetch ('http://localhost:3001/marketplace/products', {
@@ -29,10 +29,41 @@ function Marketplace() {
   }
 
   useEffect(() => {
-    getAllProducts().then((res) => {setProductList(res)})
+    getAllProducts().then((res) => {
+      setProductList(res)
+      const highestReviews = res.reduce((highest, current) => {
+        return current.reviews > highest.reviews ? current : highest;
+      }, res[0]);
+      setHighestReviewsState(highestReviews.reviews);
+    })
   }, [])
 
   const numVerticalContainers = Math.ceil(productList.length / 4)
+
+  // // Define the options for the Intersection Observer
+  // const options = {
+  //   root: null, // Use the viewport as the root
+  //   rootMargin: '0px',
+  //   threshold: 0.5, // When at least 50% of the element is visible
+  // };
+
+  // // Create a new Intersection Observer instance
+  // const observer = new IntersectionObserver(entries => {
+  //   entries.forEach(entry => {
+  //       if (entry.isIntersecting) {
+  //           // Add your animation class when the element is in the viewport
+  //           entry.target.classList.add('animated');
+  //           // Unobserve the element to avoid unnecessary animations
+  //           observer.unobserve(entry.target);
+  //       }
+  //   });
+  // }, options);
+
+  // // Observe all elements with the class .animate-me
+  // document.querySelectorAll('.prod-card').forEach(element => {
+  //   observer.observe(element);
+  // });
+
 
   return (
     <>
@@ -46,7 +77,7 @@ function Marketplace() {
                     <div className="prod-card">
                       <div className="card_title">
                         <div className="icon">
-                          <a href="#"><i className="fa fa-arrow-left"></i></a>
+                          <a href="#"><i class="fa-regular fa-thumbs-up"></i></a>
                         </div>
                         <h3>{item.category}</h3>
                       </div>
@@ -58,7 +89,7 @@ function Marketplace() {
                             <p className="price">${item.price}</p>
                           </div>
                           <div className="image">
-                            <img src={Glass1} alt=""/>
+                            <img src={item.imgurl} alt=""/>
                           </div>
                         </div>
                         <div className="half">
@@ -68,11 +99,21 @@ function Marketplace() {
                           <span className="stock"><i className="fa fa-pen"></i> In stock - {item.availableStock}</span>
                           <div className="reviews">
                             <ul className="stars">
+                              {/* <li><i className="fa fa-star"></i></li>
                               <li><i className="fa fa-star"></i></li>
                               <li><i className="fa fa-star"></i></li>
                               <li><i className="fa fa-star"></i></li>
-                              <li><i className="fa fa-star"></i></li>
-                              <li><i className="fa fa-star-o"></i></li>
+                              <li><i className="fa fa-star-o"></i></li> */}
+                              {
+                                Array.from({length: Math.floor((item.reviews / highestReviewsState) * 5)}, (_, index) => (
+                                  <li><i key={index} className="fa fa-star"></i></li>
+                                ))
+                              }
+                              {
+                                Array.from({length: 5 - Math.floor((item.reviews / highestReviewsState) * 5)}, (_, index) => (
+                                  <li><i key={index} className="fa fa-star-o"></i></li>
+                                ))
+                              }
                             </ul>
                             <br/>
                             <span>({item.reviews})</span>
@@ -85,7 +126,9 @@ function Marketplace() {
                           <h3>{item.recommendation}</h3>
                         </div>
                         <div className="action">
-                          <button type="button" onClick={() => {addToCartOnPress(item._id)}}>Add to cart</button>
+                          {
+                            item.availableStock > 0 ? (<button type="button" onClick={() => {addToCartOnPress(item._id)}}>Add to cart</button>):(<div></div>)
+                          }
                         </div>
                       </div>
                     </div>

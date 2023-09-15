@@ -36,6 +36,11 @@ const CartSchema = mongoose.Schema({
         type : Number,
         required : true,
     },
+
+    imgurl : {
+        type : String,
+        required : true
+    }
 })
 
 module.exports = mongoose.model("Cart", CartSchema)
