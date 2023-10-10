@@ -7,19 +7,19 @@ function App() {
 
   const [data, setData] = useState();
 
-    const getData = async () => {
-        const response = await Axios.get("http://localhost:5000/getData");
-        setData(response.data)
-    }
+    // const getData = async () => {
+    //     const response = await Axios.get("http://localhost:5000/getData");
+    //     setData(response.data)
+    // }
 
-    useEffect(() => {
-        getData()
+    // useEffect(() => {
+    //     getData()
 
-    }, []);
+    // }, []);
 
   return (
     <>
-      <Layout />
+      <Layout/>
       <div>{data}</div>
 
     </>
