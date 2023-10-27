@@ -1,6 +1,22 @@
 import React from 'react';
 
 class ButtonList extends React.Component {
+  startTest1 = () => {
+    window.location.href = "/AboutColorblindness";
+  };
+
+  startTest2 = () => {
+    window.location.href = "/button_list_test";
+  };
+
+  startTest3 = () => {
+    window.location.href = "/button_list_test";
+  };
+
+  startTest4 = () => {
+    window.location.href = "/button_list_test";
+  };
+
   render() {
     const styles = {
       centeredDiv: {
@@ -40,21 +56,6 @@ class ButtonList extends React.Component {
       justifyContent: 'center',
       alignItems: 'center',
     };
-
-    startTest1 = () => {
-        window.location.href = "/AboutColorblindness";
-      };
-
-    startTest2 = () => {
-        window.location.href = "/button_list_test";
-    };
-    startTest3 = () => {
-        window.location.href = "/button_list_test";
-      };
-
-    startTest4 = () => {
-        window.location.href = "/button_list_test";
-      };
 
     return (
       <div style={pageStyles}>
